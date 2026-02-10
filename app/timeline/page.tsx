@@ -6,7 +6,7 @@ import a2 from '@/public/satellite/2024-05-09.jpg';
 import a3 from '@/public/satellite/2025-04-24.jpg';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 export type pageProps = {};
 
@@ -18,46 +18,58 @@ const images: [string, StaticImageData][] = [
 
 export default function page(props: pageProps) {
   const [curr, setCurr] = useState<number>(0);
+  const currYear = useMemo(() => {
+    const date = new Date(images[curr][0]);
+    return date;
+  }, [curr]);
   return (
     <div className="relative h-svh w-full">
-      <div className="absolute bottom-3 left-3 text-xs  font-medium text-white shadow max-w-full">
-        Fonte das Imagens:{' '}
-        <Link
-          className="hover:underline"
-          target="_blank"
-          href="https://livingatlas.arcgis.com/wayback/#mapCenter=-35.74615%2C-9.63341%2C15&mode=explore&active=27982"
-        >
-          Esri World Imagery Wayback
-        </Link>
-      </div>
-      <div className="absolute left-0 top-0 grid bg-white border md:rounded-br-3xl p-3 md:p-4 gap-3 0 z-2 max-w-full w-full md:w-fit">
-        <h1 className=" font-medium text-balance">
-          Selecione uma data para ver o impacto da Braskem sobre a região:
+      <div className="absolute bottom-4 left-4 text-white  z-2">
+        <h1 className="text-shadow-lg font-medium text-balance">
+          Selecione uma data para ver o impacto <br />
+          da Braskem sobre a região:
         </h1>
-        <div className="flex flex-wrap">
+        <div className="flex gap-5 flex-wrap ">
           {images.map((imgArr: [string, StaticImageData], index) => {
             const date = new Date(imgArr[0]);
             return (
-              <div key={imgArr[0]}>
-                <Button
-                  variant={'ghost'}
-                  onClick={() => setCurr(index)}
-                  onMouseEnter={() => setCurr(index)}
-                  className={cn(
-                    'uppercase font-medium text-xs md:text-sm px-3',
-                    curr === index && 'bg-amber-400!'
-                  )}
-                >
+              <button
+                key={imgArr[0]}
+                className={cn(
+                  'opacity-40 cursor-pointer duration-150 text-left leading-none text-4xl font-black text-shadow-lg border-b-2 pb-1 text-amber-300 border-transparent',
+                  curr === index && 'opacity-100 border-b-2 border-amber-300'
+                )}
+                onClick={() => setCurr(index)}
+                onMouseEnter={() => setCurr(index)}
+              >
+                <span className="text-sm uppercase font-medium">
                   {date.toLocaleDateString('pt-BR', {
-                    month: 'long',
-                    year: 'numeric'
-                  })}
-                </Button>
-              </div>
+                    month: 'long'
+                  })}{' '}
+                  DE
+                </span>
+                <br />
+                {date.toLocaleDateString('pt-BR', {
+                  year: 'numeric'
+                })}
+              </button>
             );
           })}
         </div>
+
+        <p className="text-xs mt-8 font-medium text-white text-shadow">
+          Fonte das Imagens:{' '}
+          <Link
+            className="hover:underline"
+            target="_blank"
+            href="https://livingatlas.arcgis.com/wayback/#mapCenter=-35.74615%2C-9.63341%2C15&mode=explore&active=27982"
+          >
+            Esri World Imagery Wayback
+          </Link>
+        </p>
       </div>
+      <div className="absolute z-1 left-0 top-0 w-full h-full bg-linear-to-tr from-black/70 to-transparent mix-blend-hardlight"></div>
+
       <img
         className="object-center object-cover w-full h-full"
         src={images[curr][1].src}
