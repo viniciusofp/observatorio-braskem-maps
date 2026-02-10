@@ -15,37 +15,37 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-build:
-  runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-  steps:
-    - uses: actions/checkout@v4
+    steps:
+      - uses: actions/checkout@v4
 
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: pnpm
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
 
-    # ✅ enable pnpm BEFORE any pnpm command
-    - name: Enable pnpm (corepack)
-      run: corepack enable
+      # ✅ enable pnpm BEFORE any pnpm command
+      - name: Enable pnpm (corepack)
+        run: corepack enable
 
-    - name: Setup Pages
-      uses: actions/configure-pages@v5
-      with:
-        static_site_generator: next
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+        with:
+          static_site_generator: next
 
-    - name: Install dependencies
-      run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-    - name: Build
-      run: pnpm build
+      - name: Build
+        run: pnpm build
 
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./out
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
 
   deploy:
     environment:
