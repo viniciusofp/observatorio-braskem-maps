@@ -58,7 +58,7 @@ export default function page(props: pageProps) {
           })}
         </div>
       </div>
-      <Image
+      <img
         className="object-center object-cover w-full h-full"
         src={images[curr][1].src}
         alt={images[curr][0]}
