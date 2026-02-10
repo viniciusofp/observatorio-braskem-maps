@@ -2,8 +2,8 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
-  output: 'export',
-  basePath: '/observatorio-braskem-maps'
+  output: 'export'
+  //basePath: '/observatorio-braskem-maps'
 };
 
 export default nextConfig;

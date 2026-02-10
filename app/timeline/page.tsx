@@ -29,8 +29,8 @@ export default function page(props: pageProps) {
           Esri World Imagery Wayback
         </Link>
       </div>
-      <div className="absolute w-full left-0 top-0 grid justify-center bg-black/50 p-4 gap-3 0 z-2">
-        <h1 className="text-white shadow-xl lg:text-lg font-medium text-balance">
+      <div className="absolute left-0 top-0 grid bg-white border rounded-br-3xl p-4 gap-3 0 z-2">
+        <h1 className="text-sm lg:text-lg font-medium text-balance">
           Selecione uma data para ver o impacto da Braskem sobre a região:
         </h1>
         <div className="flex gap-3 justify-center">
@@ -39,12 +39,11 @@ export default function page(props: pageProps) {
             return (
               <div key={imgArr[0]}>
                 <Button
-                  size={'lg'}
                   variant={'secondary'}
                   onClick={() => setCurr(index)}
                   onMouseEnter={() => setCurr(index)}
                   className={cn(
-                    'uppercase font-medium',
+                    'uppercase font-medium text-xs md:text-sm',
                     curr === index && 'bg-amber-400!'
                   )}
                 >
