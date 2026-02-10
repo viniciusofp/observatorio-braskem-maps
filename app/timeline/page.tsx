@@ -20,20 +20,21 @@ export default function page(props: pageProps) {
   const [curr, setCurr] = useState<number>(0);
   return (
     <div className="relative h-svh w-full">
-      <div className="absolute bottom-3 left-3 text-xs  font-medium text-white shadow">
+      <div className="absolute bottom-3 left-3 text-xs  font-medium text-white shadow max-w-full">
         Fonte das Imagens:{' '}
         <Link
           className="hover:underline"
+          target="_blank"
           href="https://livingatlas.arcgis.com/wayback/#mapCenter=-35.74615%2C-9.63341%2C15&mode=explore&active=27982"
         >
           Esri World Imagery Wayback
         </Link>
       </div>
-      <div className="absolute left-0 top-0 grid bg-white border rounded-br-3xl p-4 gap-3 0 z-2">
-        <h1 className="text-sm lg:text-base font-medium text-balance">
+      <div className="absolute left-0 top-0 grid bg-white border md:rounded-br-3xl p-3 md:p-4 gap-3 0 z-2 max-w-full w-full md:w-fit">
+        <h1 className=" font-medium text-balance">
           Selecione uma data para ver o impacto da Braskem sobre a região:
         </h1>
-        <div className="flex">
+        <div className="flex flex-wrap">
           {images.map((imgArr: [string, StaticImageData], index) => {
             const date = new Date(imgArr[0]);
             return (
@@ -43,7 +44,7 @@ export default function page(props: pageProps) {
                   onClick={() => setCurr(index)}
                   onMouseEnter={() => setCurr(index)}
                   className={cn(
-                    'uppercase font-medium text-xs md:text-sm',
+                    'uppercase font-medium text-xs md:text-sm px-3',
                     curr === index && 'bg-amber-400!'
                   )}
                 >
