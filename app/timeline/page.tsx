@@ -30,16 +30,16 @@ export default function page(props: pageProps) {
         </Link>
       </div>
       <div className="absolute left-0 top-0 grid bg-white border rounded-br-3xl p-4 gap-3 0 z-2">
-        <h1 className="text-sm lg:text-lg font-medium text-balance">
+        <h1 className="text-sm lg:text-base font-medium text-balance">
           Selecione uma data para ver o impacto da Braskem sobre a região:
         </h1>
-        <div className="flex gap-3 justify-center">
+        <div className="flex">
           {images.map((imgArr: [string, StaticImageData], index) => {
             const date = new Date(imgArr[0]);
             return (
               <div key={imgArr[0]}>
                 <Button
-                  variant={'secondary'}
+                  variant={'ghost'}
                   onClick={() => setCurr(index)}
                   onMouseEnter={() => setCurr(index)}
                   className={cn(
