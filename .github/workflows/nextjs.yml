@@ -15,52 +15,8 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+ - run: corepack enable
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      # Node + pnpm cache
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-
-      # Install pnpm
-      - name: Install pnpm
-        run: npm install -g pnpm
-
-      # Install deps
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      # Configure GitHub Pages for Next.js
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          static_site_generator: next
-
-      # Cache Next build
-      - name: Restore Next.js cache
-        uses: actions/cache@v4
-        with:
-          path: .next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('pnpm-lock.yaml') }}-
-
-      # Build
-      - name: Build with Next.js
-        run: pnpm build
-
-      # Upload static export (Next output: 'export')
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./out
 
   deploy:
     environment:
