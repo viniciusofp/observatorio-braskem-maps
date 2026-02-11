@@ -15,7 +15,7 @@ export default function Compare(props: CompareProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [x, setX] = useState();
   const [isDragging, setIsDragging] = useState(false);
-  const [progress, setProgress] = useState(50);
+  const [progress, setProgress] = useState(20);
   const updatePosition = (clientX: number) => {
     if (!wrapperRef.current) return;
 
@@ -41,8 +41,8 @@ export default function Compare(props: CompareProps) {
     (e.target as HTMLElement).releasePointerCapture(e.pointerId);
   };
   return (
-    <>
-      <div className="mx-auto max-w-5xl w-full flex justify-between text-xs sm:text-sm lg:text-base m-3 uppercase px-4 font-medium">
+    <div className="px-4">
+      <div className="mx-auto max-w-5xl w-full flex justify-between text-xs sm:text-sm lg:text-base m-3 uppercase font-medium">
         <p className="flex items-center gap-1">
           <ChevronLeft className="size-4 lg:size-5" />
           Março de 2018
@@ -83,6 +83,6 @@ export default function Compare(props: CompareProps) {
           style={{ backgroundImage: `url(${a1.src})` }}
         ></div>
       </div>
-    </>
+    </div>
   );
 }
