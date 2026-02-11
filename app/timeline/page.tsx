@@ -1,5 +1,13 @@
 'use client';
 import { Button } from '@/components/ui/button';
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+} from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
 import a1 from '@/public/satellite/2023-03-15.jpg';
 import a2 from '@/public/satellite/2024-05-09.jpg';
@@ -7,7 +15,8 @@ import a3 from '@/public/satellite/2025-04-24.jpg';
 import { AnimatePresence, motion } from 'motion/react';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import Fade, { FadeType } from 'embla-carousel-fade';
 
 export type pageProps = {};
 
@@ -19,13 +28,32 @@ const images: [string, StaticImageData][] = [
 
 export default function page(props: pageProps) {
   const [curr, setCurr] = useState<number>(0);
-  const currYear = useMemo(() => {
-    const date = new Date(images[curr][0]);
-    return date;
-  }, [curr]);
+  const [api, setApi] = useState<CarouselApi>();
+  //   const currYear = useMemo(() => {
+  //     const date = new Date(images[curr][0]);
+  //     return date;
+  //   }, [curr]);
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+    api.on('select', () => setCurr(api.selectedScrollSnap()));
+  }, [api]);
+
+  const scrollPrev = useCallback(() => {
+    if (api) {
+      api.scrollPrev();
+    }
+  }, [api]);
+
+  const scrollNext = useCallback(() => {
+    if (api) {
+      api.scrollNext();
+    }
+  }, [api]);
   return (
     <div className="relative h-svh w-full bg-black overflow-hidden">
-      <div className="absolute bottom-4 left-4 text-white  z-5">
+      <div className="absolute top-4 left-4 text-white  z-5">
         <h1 className="text-shadow-lg md:text-xl tracking-wider leading-relaxed mb-1 text-balance">
           Selecione uma data para ver o impacto <br />
           da Braskem sobre a região:
@@ -41,8 +69,14 @@ export default function page(props: pageProps) {
                   curr === index &&
                     'opacity-100 border-b-2 border-white text-white'
                 )}
-                onClick={() => setCurr(index)}
-                onMouseEnter={() => setCurr(index)}
+                onClick={() => {
+                  setCurr(index);
+                  api?.scrollTo(index);
+                }}
+                onMouseEnter={() => {
+                  setCurr(index);
+                  api?.scrollTo(index);
+                }}
               >
                 <span className="text-sm uppercase font-medium">
                   {date.toLocaleDateString('pt-BR', {
@@ -58,7 +92,7 @@ export default function page(props: pageProps) {
             );
           })}
         </div>
-
+        {/* 
         <p className="text-xs mt-8 font-medium text-white text-shadow">
           Fonte das Imagens:{' '}
           <Link
@@ -68,35 +102,37 @@ export default function page(props: pageProps) {
           >
             Esri World Imagery Wayback
           </Link>
-        </p>
+        </p> */}
       </div>
-      <div className="absolute z-3 left-0 top-0 w-full h-full bg-linear-to-tr from-black/60 to-transparent mix-blend-hardlight"></div>
+      <div className="absolute z-3 left-0 top-0 w-full h-full bg-linear-to-br from-black/80 via-transparent via-60% to-transparent mix-blend-hardlight pointer-events-none"></div>
 
-      {images.map((imgArr: [string, StaticImageData], index) => {
-        return (
-          <AnimatePresence key={imgArr[0]}>
-            {curr === index && (
-              <motion.div
-                key={imgArr[0] + 'div'}
-                initial={{ opacity: 0.85, zIndex: 2 }}
-                animate={{ opacity: 1, zIndex: 2 }}
-                exit={{ opacity: 0, zIndex: 0 }}
-                className={cn('absolute left-0 top-0 w-full h-full')}
+      <Carousel
+        setApi={setApi}
+        plugins={[Fade()]}
+        opts={{ loop: true }}
+        className="w-full h-svh"
+      >
+        <CarouselContent className="w-full h-full ml-0">
+          {images.map((imgArr: [string, StaticImageData], index) => {
+            return (
+              <CarouselItem
+                key={imgArr[0]}
+                className="relative left-0 top-0 w-full h-svh pl-0"
               >
-                <div className="relative left-0 top-0 w-full h-full">
-                  <img
-                    className="object-center object-cover w-full h-full"
-                    src={imgArr[1].src}
-                    alt={imgArr[0]}
-                    width={1980}
-                    height={1303}
-                  />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        );
-      })}
+                <img
+                  className="object-center object-cover w-full h-full "
+                  src={imgArr[1].src}
+                  alt={imgArr[0]}
+                  width={1980}
+                  height={1303}
+                />
+              </CarouselItem>
+            );
+          })}
+        </CarouselContent>
+        {/* <CarouselPrevious />
+          <CarouselNext /> */}
+      </Carousel>
     </div>
   );
 }
