@@ -54,7 +54,7 @@ export default function Compare({ items, width, ratio }: CompareProps) {
     <div className="px-4">
       <div
         className={cn(
-          ' mx-auto! w-full flex justify-between text-xs sm:text-sm lg:text-base m-3 uppercase font-medium',
+          ' mx-auto! w-full max-w-4xl flex justify-between text-xs sm:text-sm lg:text-base m-3 uppercase font-medium',
           width
         )}
       >

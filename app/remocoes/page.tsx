@@ -2,13 +2,6 @@
 import Compare from '@/components/compare';
 import a1 from '@/public/satellite/2018-03-28.jpg';
 import a2 from '@/public/satellite/2021-02-24.jpg';
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeftRight,
-  PanelRightOpen
-} from 'lucide-react';
-import { useRef, useState } from 'react';
 
 export type CompareRemocaoProps = {};
 
